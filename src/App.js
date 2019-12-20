@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Navbar from './components/Navbar';
+import ShoppingCart from './components/ShoppingCart';
+import InsertItem from './components/InsertItem';
+import { connect } from 'react-redux';
+import * as actions from './actions/actions';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  deleteItem = id => {
+    this.props.dispatch(actions.deleteCartItem(id));
+  };
+
+  addItem = newItem => {
+    this.props.dispatch(actions.insertCartItem(newItem));
+  };
+
+  render() {
+    return (
+      <div className="container">
+        <Navbar />
+        <InsertItem onAddItem={this.addItem} />
+        <ShoppingCart
+          onDeleteItem={this.deleteItem}
+          cartItems={this.props.cartItems}
+        />
+      </div>
+    );
+  }
 }
 
-export default App;
+export default connect((state, props) => {
+  return {
+    cartItems: state.cartItems
+  };
+})(App);
