@@ -2,8 +2,8 @@ FROM node
 LABEL author="cemutku"
 ENV NODE_ENV=development
 ENV PORT=3000
-COPY . /var/www
-WORKDIR /var/www
+COPY . /src
+WORKDIR /src
 RUN npm install
 EXPOSE $PORT
 ENTRYPOINT [ "npm", "start" ]
